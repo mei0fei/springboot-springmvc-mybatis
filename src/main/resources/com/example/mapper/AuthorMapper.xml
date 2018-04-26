@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.AuthorMapper">
+	
+	<resultMap type="com.example.model.Author" id="AuthorResult">
+        <id     javaType="int" property="id"  column="id" />
+        <result javaType="java.lang.String" property="name" column="name" />
+        <result javaType="java.lang.String" property="phone" column="phone" />
+    </resultMap>
+	
+    <select id="findAllAuthors" resultMap="AuthorResult">
+    		select * from author
+    </select>
+    
+    <select id="findAuthorById" resultMap="AuthorResult">
+    		select * from author where id=#{id}
+    </select>
+    
+    <insert id="insertAuthor" useGeneratedKeys="true"  parameterType="com.example.model.Author"
+	    keyProperty="id">
+	 insert into author(name, phone) values (#{name}, #{phone} )
+	</insert>
+
+ 	<update id="updateAuthor" parameterType="com.example.model.Author" flushCache="true">
+     	update author set name=#{name}, phone=#{phone}  where id=#{id}
+    </update>
+	
+	<update id="deleteAuthor" parameterType="int" flushCache="true">
+     	delete from author where id=#{id}
+    </update>
+    
+    
+    
+</mapper>

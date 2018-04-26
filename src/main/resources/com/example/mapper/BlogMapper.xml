@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.BlogMapper">
+	
+	<resultMap type="com.example.model.Blog" id="BlogResult">
+        <id property="id" column="blog_id" />
+        <result property="title" column="blog_title" />
+        <result property="content" column="blog_content" />
+        <result javaType="java.util.Date" property="dob" column="blog_dob" />
+        <result property="state" column="blog_state" />
+        
+        <association property="author" javaType="com.example.model.Author" 
+				column="author_id" foreignColumn="id">
+			<id property="id" column="author_id"/>
+			<result property="name" column="author_name"/>
+			<result property="phone" column="author_phone"/>
+		</association>
+		
+		<collection property="posts" ofType="com.example.model.Post">
+			<id property="id" column="post_id"/>
+			<result property="content" column="post_content"/>
+			<result property="dob" column="post_dob"/>
+		</collection>
+        
+    </resultMap>
+    
+    
+    <select id="findBlogById" resultMap="BlogResult">
+    		select 
+    			B.id as blog_id, B.title as blog_title, B.content as blog_content, B.dob as blog_dob, B.state as blog_state, 
+	    		A.id as author_id, A.name as author_name, A.phone as author_phone, 
+	    		P.id as post_id, P.content as post_content, P.dob as post_dob
+    		from Blog B 
+	    		left outer join Author A on B.author_id = A.id
+	    		left outer join Post P on B.id = p.blog_id
+    		where B.id=#{id} 
+    </select>
+   
+	
+    <insert id="insertBlog" useGeneratedKeys="true"  parameterType="com.example.model.Blog"
+	    keyProperty="id">
+	 insert into Blog(title, content, dob, state) values (#{title},#{content}, #{dob}, #{state} )
+	</insert>
+
+ 	<update id="updateBlog" parameterType="com.example.model.Blog" flushCache="true">
+     	update Blog set title=#{title}, content=#{content}, dob=#{dob}, state=#{state} where id=#{id}
+    </update>
+	
+	<delete id="deleteBlog" parameterType="int" flushCache="true">
+     	delete from Blog where id=#{id}
+    </delete>
+    
+    
+</mapper>

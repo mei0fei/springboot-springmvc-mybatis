@@ -28,7 +28,6 @@ public class CustomerController {
 		customers = new HashMap<String, Customer>();
 	}
     
-	
 	@RequestMapping(value = "/cust/save", method = RequestMethod.GET)
 	public String saveCustomerPage(Model model) {
 		

@@ -3,6 +3,9 @@ package com.example.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Blog{
 	private int id;
 	private String title;
@@ -20,8 +23,6 @@ public class Blog{
 		this.dob = dob;
 		this.state = state;
 	}
-	
-	
 	
 	public List<Post> getPosts() {
 		return posts;

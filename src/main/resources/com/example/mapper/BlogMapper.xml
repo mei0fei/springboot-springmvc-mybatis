@@ -5,6 +5,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 
 <mapper namespace="com.example.mapper.BlogMapper">
 	
+	   
+        
 	<resultMap type="com.example.model.Blog" id="BlogResult">
         <id property="id" column="blog_id" />
         <result property="title" column="blog_title" />
@@ -27,6 +29,15 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         
     </resultMap>
     
+    <select id="findAllBlogs" resultMap="BlogResult" >
+    		select 
+    			B.id as blog_id, B.title as blog_title, B.content as blog_content, B.dob as blog_dob, B.state as blog_state, 
+	    		A.id as author_id, A.name as author_name, A.phone as author_phone, 
+	    		P.id as post_id, P.content as post_content, P.dob as post_dob
+    		from Blog B 
+	    		left outer join Author A on B.author_id = A.id
+	    		left outer join Post P on B.id = p.blog_id
+    </select>
     
     <select id="findBlogById" resultMap="BlogResult">
     		select 
@@ -52,6 +63,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<delete id="deleteBlog" parameterType="int" flushCache="true">
      	delete from Blog where id=#{id}
     </delete>
+    
     
     
 </mapper>
